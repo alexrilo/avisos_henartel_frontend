@@ -1,6 +1,12 @@
+# Build output
+dist/
+
 # Playwright E2E Testing
 test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
 tests/.auth/
+
+# Dependencies
+node_modules/
