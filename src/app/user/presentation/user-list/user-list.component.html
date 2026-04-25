@@ -1,0 +1,53 @@
+<div class="p-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-extrabold text-primary">Gestión de Usuarios</h1>
+    <a routerLink="/dashboard/usuarios/new" class="bg-gradient-to-r from-primary to-primary-container text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg hover:opacity-90 transition-all flex items-center gap-2">
+      <span class="material-symbols-outlined text-[20px]">add</span>
+      Nuevo Usuario
+    </a>
+  </div>
+
+  @if (userService.loading()) {
+    <div class="text-center text-on-surface-variant text-lg py-8">
+      <span class="material-symbols-outlined animate-spin text-4xl">sync</span>
+      <p class="mt-4">Cargando...</p>
+    </div>
+  } @else if (userService.error()) {
+    <div class="bg-error-container text-on-error-container px-6 py-4 rounded-2xl">
+      {{ userService.error() }}
+    </div>
+  } @else {
+    <div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm ring-1 ring-outline-variant/10">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="bg-surface-container-low">
+            <th class="px-6 py-4 text-[10px] uppercase tracking-wider text-on-surface-variant font-bold font-label">Nombre</th>
+            <th class="px-6 py-4 text-[10px] uppercase tracking-wider text-on-surface-variant font-bold font-label">Email</th>
+            <th class="px-6 py-4 text-[10px] uppercase tracking-wider text-on-surface-variant font-bold font-label">Rol</th>
+            <th class="px-6 py-4 text-[10px] uppercase tracking-wider text-on-surface-variant font-bold font-label">Estado</th>
+            <th class="px-6 py-4 text-[10px] uppercase tracking-wider text-on-surface-variant font-bold font-label">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-variant/30">
+          @for (user of userService.users(); track user.id) {
+            <tr class="hover:bg-surface-bright transition-colors">
+              <td class="px-6 py-4 text-on-surface font-medium">{{ user.nombre }} {{ user.apellido }}</td>
+              <td class="px-6 py-4 text-on-surface">{{ user.email }}</td>
+              <td class="px-6 py-4 text-on-surface">{{ user.role }}</td>
+              <td class="px-6 py-4">
+                <span [class]="user.status === 'ACTIVE' ? 'bg-secondary-container text-on-secondary-container' : 'bg-error-container text-on-error-container'" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold">
+                  {{ user.status === 'ACTIVE' ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td class="px-6 py-4">
+                <button (click)="toggleUserActive(user)" class="text-primary hover:bg-primary-container/30 px-3 py-1.5 rounded-lg transition-all text-sm font-medium">
+                  {{ user.status === 'ACTIVE' ? 'Desactivar' : 'Activar' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

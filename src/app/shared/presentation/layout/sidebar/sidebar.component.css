@@ -1,0 +1,12 @@
+/* Sidebar component styles - Tailwind handles 99% of styling */
+/* Minimal custom CSS only when needed */
+
+/* Active nav link animation */
+a.router-link-active {
+  transform: translateX(4px);
+}
+
+/* Smooth transitions for hover states */
+a:not(.router-link-active) {
+  transition: all 0.2s ease;
+}

@@ -1,0 +1,55 @@
+<div class="p-8 max-w-4xl mx-auto">
+  <h1 class="text-3xl font-extrabold text-primary mb-6">Asignar Técnico</h1>
+
+  @if (aviso()) {
+    <div class="bg-surface-container-low p-5 rounded-2xl mb-6">
+      <p class="text-sm font-semibold text-on-surface px-2 mb-2">Información del Aviso</p>
+      <p><strong class="text-on-surface">Número:</strong> <span class="text-on-surface-variant">{{ aviso()!.numeroCorrelativo }}</span></p>
+      <p><strong class="text-on-surface">Descripción:</strong> <span class="text-on-surface-variant">{{ aviso()!.descripcion }}</span></p>
+      <p><strong class="text-on-surface">Estado actual:</strong> <span class="text-on-surface-variant">{{ aviso()!.estado }}</span></p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="bg-error-container text-on-error-container px-6 py-4 rounded-2xl mb-6">
+      {{ error() }}
+    </div>
+  }
+
+  <form (ngSubmit)="onSubmit()" #form="ngForm" class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm ring-1 ring-outline-variant/10">
+    <div class="mb-6">
+      <label for="tecnicoId" class="block text-sm font-medium text-on-surface mb-2">Técnico *</label>
+      @if (tecnicosLoading()) {
+        <div class="text-on-surface-variant text-sm py-2">Cargando técnicos...</div>
+      } @else if (tecnicos().length === 0) {
+        <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-xl text-sm mb-4">
+          <p class="font-semibold mb-1">No hay técnicos disponibles.</p>
+          <p class="text-yellow-700">Asegúrate de crear usuarios con rol <strong>TÉCNICO</strong> en la sección de Usuarios.</p>
+        </div>
+      }
+      <select 
+        id="tecnicoId" 
+        [ngModel]="tecnicoId()" 
+        (ngModelChange)="tecnicoId.set($event)" 
+        name="tecnicoId" 
+        [disabled]="tecnicosLoading()"
+        required
+        class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all disabled:opacity-50"
+      >
+        <option [ngValue]="null" disabled selected>Seleccione un técnico</option>
+        @for (tecnico of tecnicos(); track tecnico.id) {
+          <option [ngValue]="tecnico.id">{{ tecnico.nombre }} {{ tecnico.apellido }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="flex gap-4 mt-8">
+      <button type="submit" [disabled]="loading() || !form.valid" class="bg-gradient-to-r from-primary to-primary-container text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        {{ loading() ? 'Asignando...' : 'Asignar' }}
+      </button>
+      <a routerLink="/dashboard/avisos" class="bg-surface-container-high text-on-surface px-6 py-3 rounded-xl font-medium hover:bg-surface-container-highest transition-colors">
+        Cancelar
+      </a>
+    </div>
+  </form>
+</div>

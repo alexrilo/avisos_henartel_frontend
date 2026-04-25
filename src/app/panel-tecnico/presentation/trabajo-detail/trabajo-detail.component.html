@@ -1,0 +1,80 @@
+<div class="p-4 md:p-8 max-w-3xl mx-auto">
+  @if (loading()) {
+    <div class="text-center text-on-surface-variant text-lg py-8">
+      <span class="material-symbols-outlined animate-spin text-4xl">sync</span>
+      <p class="mt-4">Cargando...</p>
+    </div>
+  } @else if (error()) {
+    <div class="bg-error-container text-on-error-container px-6 py-4 rounded-2xl">
+      {{ error() }}
+    </div>
+  } @else if (trabajo()) {
+    <div class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-sm ring-1 ring-outline-variant/10">
+      <div class="px-6 py-4 bg-surface-container-low flex justify-between items-center">
+        <a routerLink="/dashboard/panel-tecnico" class="text-primary hover:text-primary-container flex items-center gap-1 font-medium transition-colors">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Volver al panel
+        </a>
+      </div>
+      
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-6">
+          <div>
+            <h1 class="text-3xl font-extrabold text-primary">{{ trabajo()!.numeroCorrelativo }}</h1>
+            <p class="text-on-surface-variant mt-1">{{ trabajo()!.direccion }}</p>
+          </div>
+          <span class="text-sm font-bold px-3 py-1.5 rounded-full bg-primary-container text-on-primary-container">
+            {{ getEstadoLabel(trabajo()!.estado) }}
+          </span>
+        </div>
+
+        <div class="bg-surface-container-low rounded-2xl p-5 mb-6">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-on-surface-variant mb-3 font-label">Descripción</h2>
+          <p class="text-on-surface">{{ trabajo()!.descripcion }}</p>
+        </div>
+
+        <div class="bg-surface-container-low rounded-2xl p-5 mb-6">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-on-surface-variant mb-3 font-label">Información</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+              <span class="text-xs text-on-surface-variant font-label">Cliente ID</span>
+              <span class="text-on-surface font-medium">{{ trabajo()!.clienteId }}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs text-on-surface-variant font-label">Prioridad</span>
+              <span class="text-on-surface font-medium">{{ getPrioridadLabel(trabajo()!.prioridad) }}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xs text-on-surface-variant font-label">Creado</span>
+              <span class="text-on-surface font-medium">{{ trabajo()!.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            @if (trabajo()!.fechaProgramada) {
+              <div class="flex flex-col">
+                <span class="text-xs text-on-surface-variant font-label">Programado</span>
+                <span class="text-on-surface font-medium">{{ trabajo()!.fechaProgramada | date:'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        @if (trabajo()!.observaciones.length > 0) {
+          <div class="bg-surface-container-low rounded-2xl p-5">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-on-surface-variant mb-3 font-label">Historial</h2>
+            <div class="space-y-4">
+              @for (obs of trabajo()!.observaciones; track obs.id) {
+                <div class="border-l-2 border-primary pl-4 py-1">
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-xs font-bold text-primary">{{ obs.tipo }}</span>
+                    <span class="text-xs text-on-surface-variant">{{ obs.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</span>
+                  </div>
+                  <p class="text-on-surface text-sm">{{ obs.contenido }}</p>
+                  <span class="text-xs text-on-surface-variant">Por: {{ obs.usuario }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

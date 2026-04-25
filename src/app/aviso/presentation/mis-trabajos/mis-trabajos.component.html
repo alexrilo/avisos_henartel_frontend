@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="header">
+    <h1>Mis Trabajos</h1>
+  </div>
+
+  @if (loading()) {
+    <p class="loading">Cargando...</p>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else if (trabajos().length === 0) {
+    <p class="empty">No tienes trabajos asignados.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Número</th>
+          <th>Descripción</th>
+          <th>Prioridad</th>
+          <th>Estado</th>
+          <th>Fecha Programada</th>
+          <th>Dirección</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (aviso of trabajos(); track aviso.id) {
+          <tr>
+            <td>{{ aviso.numeroCorrelativo }}</td>
+            <td>{{ aviso.descripcion | slice:0:50 }}{{ aviso.descripcion.length > 50 ? '...' : '' }}</td>
+            <td>
+              <span [class]="getPrioridadClass(aviso.prioridad)">
+                {{ aviso.prioridad }}
+              </span>
+            </td>
+            <td>{{ getEstadoLabel(aviso.estado) }}</td>
+            <td>{{ aviso.fechaProgramada ? (aviso.fechaProgramada | date:'dd/MM/yyyy HH:mm') : 'Sin fecha' }}</td>
+            <td>{{ aviso.direccion.calle }} {{ aviso.direccion.numero }}, {{ aviso.direccion.localidad }}</td>
+            <td>
+              <a [routerLink]="['/dashboard/avisos', aviso.id]" class="btn btn-sm">Ver</a>
+              <a [routerLink]="['/dashboard/avisos', aviso.id, 'reprogramar']" class="btn btn-sm">Reprogramar</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

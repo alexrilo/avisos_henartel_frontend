@@ -1,0 +1,54 @@
+<div class="container">
+  <h1>Cambiar Estado</h1>
+
+  @if (aviso()) {
+    <div class="aviso-info">
+      <p><strong>Número:</strong> {{ aviso()!.numeroCorrelativo }}</p>
+      <p><strong>Descripción:</strong> {{ aviso()!.descripcion }}</p>
+      <p><strong>Estado actual:</strong> {{ getEstadoLabel(aviso()!.estado) }}</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="error">{{ error() }}</div>
+  }
+
+  <form (ngSubmit)="onSubmit()" #form="ngForm" class="form">
+    <div class="form-group">
+      <label for="nuevoEstado">Nuevo Estado *</label>
+      <select 
+        id="nuevoEstado" 
+        [ngModel]="nuevoEstado()" 
+        (ngModelChange)="nuevoEstado.set($event)" 
+        name="nuevoEstado" 
+        required
+      >
+        <option value="">Seleccionar estado</option>
+        @for (estado of estadosDisponibles(); track estado) {
+          <option [value]="estado">{{ getEstadoLabel(estado) }}</option>
+        }
+      </select>
+    </div>
+
+    @if (nuevoEstado() === 'ASIGNADO') {
+      <div class="form-group">
+        <label for="tecnicoId">ID del Técnico (opcional)</label>
+        <input 
+          type="number" 
+          id="tecnicoId" 
+          [ngModel]="tecnicoId()" 
+          (ngModelChange)="tecnicoId.set($event)" 
+          name="tecnicoId" 
+          placeholder="ID del técnico"
+        />
+      </div>
+    }
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="loading() || !form.valid" class="btn btn-primary">
+        {{ loading() ? 'Cambiando...' : 'Cambiar Estado' }}
+      </button>
+      <a routerLink="/dashboard/avisos" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,101 @@
+<div class="p-8 max-w-4xl mx-auto">
+  <h1 class="text-3xl font-extrabold text-primary mb-6">{{ getFormTitle() }}</h1>
+
+  @if (error()) {
+    <div class="bg-error-container text-on-error-container px-6 py-4 rounded-2xl mb-6">
+      {{ error() }}
+    </div>
+  }
+
+  <form (ngSubmit)="onSubmit()" #avisoForm="ngForm" class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm ring-1 ring-outline-variant/10">
+    <div class="mb-6">
+      <label for="clienteId" class="block text-sm font-medium text-on-surface mb-2">Cliente *</label>
+      <select 
+        id="clienteId" 
+        [ngModel]="clienteId()" 
+        (ngModelChange)="clienteId.set($event)" 
+        name="clienteId" 
+        required
+        [disabled]="isEdit"
+        data-testid="client-select"
+        class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all disabled:bg-surface-container-low disabled:text-on-surface-variant"
+      >
+        <option [ngValue]="null" disabled>Seleccionar cliente</option>
+        @for (cliente of clientes(); track cliente.id) {
+          <option [ngValue]="cliente.id">{{ cliente.nombreOrazonSocial }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-6">
+      <label for="descripcion" class="block text-sm font-medium text-on-surface mb-2">Descripción *</label>
+      <textarea 
+        id="descripcion" 
+        [(ngModel)]="descripcion" 
+        name="descripcion" 
+        required
+        rows="3"
+        placeholder="Descripción de la incidencia"
+        data-testid="description-input"
+        class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all"
+      ></textarea>
+    </div>
+
+    <div class="mb-6">
+      <label for="prioridad" class="block text-sm font-medium text-on-surface mb-2">Prioridad *</label>
+      <select id="prioridad" [(ngModel)]="prioridad" name="prioridad" required data-testid="priority-select" class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all">
+        <option value="BAJA">Baja</option>
+        <option value="MEDIA">Media</option>
+        <option value="ALTA">Alta</option>
+        <option value="URGENTE">Urgente</option>
+      </select>
+    </div>
+
+    <fieldset class="bg-surface-container-low p-5 rounded-2xl mb-6">
+      <legend class="text-sm font-semibold text-on-surface px-2">Dirección del Servicio</legend>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+        <div class="mb-4">
+          <label for="calle" class="block text-sm font-medium text-on-surface mb-2">Calle *</label>
+          <input type="text" id="calle" [(ngModel)]="calle" name="calle" required class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all" />
+        </div>
+        <div class="mb-4">
+          <label for="numero" class="block text-sm font-medium text-on-surface mb-2">Número *</label>
+          <input type="text" id="numero" [(ngModel)]="numero" name="numero" required class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all" />
+        </div>
+        <div class="mb-4">
+          <label for="localidad" class="block text-sm font-medium text-on-surface mb-2">Localidad *</label>
+          <input type="text" id="localidad" [(ngModel)]="localidad" name="localidad" required class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all" />
+        </div>
+        <div class="mb-4">
+          <label for="provincia" class="block text-sm font-medium text-on-surface mb-2">Provincia *</label>
+          <input type="text" id="provincia" [(ngModel)]="provincia" name="provincia" required class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all" />
+        </div>
+        <div class="mb-4">
+          <label for="codigoPostal" class="block text-sm font-medium text-on-surface mb-2">Código Postal *</label>
+          <input type="text" id="codigoPostal" [(ngModel)]="codigoPostal" name="codigoPostal" required class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all" />
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="mb-6">
+      <label for="fechaProgramada" class="block text-sm font-medium text-on-surface mb-2">Fecha Programada (opcional)</label>
+      <input 
+        type="datetime-local" 
+        id="fechaProgramada" 
+        [ngModel]="fechaProgramada()" 
+        (ngModelChange)="fechaProgramada.set($event)" 
+        name="fechaProgramada"
+        class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all"
+      />
+    </div>
+
+    <div class="flex gap-4 mt-8">
+      <button type="submit" [disabled]="loading() || !avisoForm.valid" data-testid="submit-button" class="bg-gradient-to-r from-primary to-primary-container text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        {{ loading() ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <a routerLink="/dashboard/avisos" data-testid="cancel-button" class="bg-surface-container-high text-on-surface px-6 py-3 rounded-xl font-medium hover:bg-surface-container-highest transition-colors">
+        Cancelar
+      </a>
+    </div>
+  </form>
+</div>

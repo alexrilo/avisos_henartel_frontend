@@ -1,0 +1,68 @@
+<div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm ring-1 ring-outline-variant/10 transition-all hover:shadow-md" 
+     [class]="getPrioridadClass(card().prioridad)">
+  <div class="px-4 py-3 flex justify-between items-center bg-surface-container-low">
+    <span class="font-headline font-bold text-primary">{{ card().numeroCorrelativo }}</span>
+    <span class="text-xs font-bold px-2 py-1 rounded-full" [class]="getStatusBadgeClass(card().estado)">
+      {{ getEstadoLabel(card().estado) }}
+    </span>
+  </div>
+
+  <div class="p-4">
+    <p class="text-on-surface text-sm line-clamp-2 mb-3">{{ card().descripcion }}</p>
+    <p class="text-on-surface-variant text-sm flex items-center gap-1 mb-2">
+      <span class="material-symbols-outlined text-[18px]">location_on</span>
+      {{ card().direccion }}
+    </p>
+    @if (card().fechaProgramada) {
+      <p class="text-on-surface-variant text-sm flex items-center gap-1">
+        <span class="material-symbols-outlined text-[18px]">schedule</span>
+        {{ card().fechaProgramada | date:'dd/MM/yyyy HH:mm' }}
+      </p>
+    }
+  </div>
+
+  <div class="px-4 pb-4 flex flex-wrap gap-2">
+    <a [routerLink]="['/dashboard/panel-tecnico', card().id]" class="flex-1 bg-surface-container-high text-on-surface text-center px-4 py-2 rounded-xl font-medium hover:bg-surface-container-highest transition-colors text-sm">
+      Ver Detalle
+    </a>
+    @for (accion of card().accionesDisponibles; track accion) {
+      <button (click)="onQuickAction(accion)" class="bg-gradient-to-r from-primary to-primary-container text-white px-4 py-2 rounded-xl font-semibold text-sm hover:opacity-90 transition-all">
+        {{ accion }}
+      </button>
+    }
+  </div>
+</div>
+
+<!-- Modal for observation -->
+@if (showModal()) {
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" (click)="closeModal()">
+    <div class="bg-surface-container rounded-2xl p-6 w-full max-w-md mx-4 shadow-xl" (click)="$event.stopPropagation()">
+      <h3 class="font-headline text-xl text-on-surface mb-4">{{ getModalTitle() }}</h3>
+      
+      <label class="block text-on-surface-variant text-sm mb-2" for="observacion">
+        Observación (opcional)
+      </label>
+      <textarea 
+        id="observacion"
+        [(ngModel)]="observacion"
+        placeholder="Añade una observación..."
+        class="w-full h-32 px-4 py-3 bg-surface-container-high text-on-surface rounded-xl border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary outline-none resize-none text-sm"
+      ></textarea>
+      
+      <div class="flex gap-3 mt-6">
+        <button 
+          (click)="closeModal()"
+          class="flex-1 bg-surface-container-high text-on-surface px-4 py-3 rounded-xl font-medium hover:bg-surface-container-highest transition-colors"
+        >
+          Cancelar
+        </button>
+        <button 
+          (click)="onConfirmModal()"
+          class="flex-1 bg-gradient-to-r from-primary to-primary-container text-white px-4 py-3 rounded-xl font-semibold hover:opacity-90 transition-all"
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,12 @@
+/* Mobile menu component styles - Tailwind handles 99% of styling */
+/* Minimal custom CSS only when needed */
+
+/* Safe area padding for modern mobile devices */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+/* Smooth active state transitions */
+a.router-link-active {
+  transition: all 0.2s ease;
+}

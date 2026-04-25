@@ -1,0 +1,19 @@
+/* Main Layout Component Styles */
+/* Tailwind handles 99% of styling via utility classes */
+
+/* Glass effect for sticky header */
+header {
+  background: rgba(242, 244, 246, 0.8);
+  backdrop-filter: blur(20px);
+}
+
+/* Safe area padding for mobile bottom nav */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+/* Smooth transitions */
+button,
+a {
+  transition: all 0.2s ease;
+}

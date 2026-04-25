@@ -1,0 +1,81 @@
+<div class="p-8 max-w-3xl mx-auto">
+  <h1 class="text-3xl font-extrabold text-primary mb-6">{{ getFormTitle() }}</h1>
+
+  @if (error()) {
+    <div class="bg-error-container text-on-error-container px-6 py-4 rounded-2xl mb-6">
+      {{ error() }}
+    </div>
+  }
+
+  <form (ngSubmit)="onSubmit()" #clienteForm="ngForm" class="bg-surface-container-lowest rounded-3xl p-6 shadow-sm ring-1 ring-outline-variant/10">
+    <div class="mb-6">
+      <label for="tipo" class="block text-sm font-medium text-on-surface mb-2">Tipo de Cliente *</label>
+      <select id="tipo" [(ngModel)]="tipo" name="tipo" [disabled]="isEdit" required class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all disabled:bg-surface-container-low disabled:text-on-surface-variant">
+        <option value="PARTICULAR">Particular</option>
+        <option value="EMPRESA">Empresa</option>
+      </select>
+      @if (isEdit) {
+        <p class="text-xs text-on-surface-variant mt-2">El tipo no se puede cambiar después de crear el cliente</p>
+      }
+    </div>
+
+    <div class="mb-6">
+      <label for="nombreOrazonSocial" class="block text-sm font-medium text-on-surface mb-2">{{ tipo === 'PARTICULAR' ? 'Nombre' : 'Razón Social' }} *</label>
+      <input 
+        type="text" 
+        id="nombreOrazonSocial" 
+        [(ngModel)]="nombreOrazonSocial" 
+        name="nombreOrazonSocial" 
+        required
+        [placeholder]="tipo === 'PARTICULAR' ? 'Nombre completo' : 'Razón social'"
+        class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all"
+      />
+    </div>
+
+    <div class="mb-6">
+      <label for="telefono" class="block text-sm font-medium text-on-surface mb-2">Teléfono *</label>
+      <input 
+        type="tel" 
+        id="telefono" 
+        [(ngModel)]="telefono" 
+        name="telefono" 
+        required
+        placeholder="Teléfono de contacto"
+        class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all"
+      />
+    </div>
+
+    <div class="mb-6">
+      <label for="personaContacto" class="block text-sm font-medium text-on-surface mb-2">Persona de Contacto</label>
+      <input 
+        type="text" 
+        id="personaContacto" 
+        [(ngModel)]="personaContacto" 
+        name="personaContacto"
+        placeholder="Nombre de la persona de contacto (opcional)"
+        class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all"
+      />
+    </div>
+
+    <div class="mb-6">
+      <label for="observaciones" class="block text-sm font-medium text-on-surface mb-2">Observaciones</label>
+      <textarea 
+        id="observaciones" 
+        [(ngModel)]="observaciones" 
+        name="observaciones"
+        rows="3"
+        placeholder="Observaciones adicionales (opcional)"
+        class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all"
+      ></textarea>
+    </div>
+
+    <div class="flex gap-4 mt-8">
+      <button type="submit" [disabled]="loading() || !clienteForm.valid" class="bg-gradient-to-r from-primary to-primary-container text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        {{ loading() ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <a routerLink="/dashboard/clientes" class="bg-surface-container-high text-on-surface px-6 py-3 rounded-xl font-medium hover:bg-surface-container-highest transition-colors">
+        Cancelar
+      </a>
+    </div>
+  </form>
+</div>

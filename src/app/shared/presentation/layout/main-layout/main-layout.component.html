@@ -1,0 +1,43 @@
+<!-- Sidebar (Desktop Only) -->
+<app-sidebar></app-sidebar>
+
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen">
+  <!-- Header / Top Bar -->
+  <header class="sticky top-0 z-30 bg-surface-container-low/80 backdrop-blur-md px-8 py-6 flex justify-between items-center border-b border-surface-container-high">
+    <div class="flex items-center gap-4">
+      <!-- Mobile Menu Button -->
+      <button 
+        class="md:hidden p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors"
+        (click)="toggleMobileMenu()">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-primary font-headline">{{ pageTitle() }}</h1>
+        <p class="text-sm text-on-surface-variant mt-1">{{ pageDescription() }}</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-4">
+      <button class="p-2 text-on-surface-variant hover:bg-surface-container-high transition-colors rounded-full">
+        <span class="material-symbols-outlined">notifications</span>
+      </button>
+      
+      <button 
+        (click)="logout()"
+        class="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-colors">
+        <span class="material-symbols-outlined text-[20px]">logout</span>
+        Salir
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <section class="px-8 pb-24 md:pb-12">
+    <router-outlet></router-outlet>
+  </section>
+</main>
+
+<!-- Mobile Bottom Navigation -->
+<app-mobile-menu></app-mobile-menu>

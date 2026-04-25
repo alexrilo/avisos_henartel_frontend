@@ -1,0 +1,58 @@
+<div class="flex justify-center items-center min-h-screen bg-surface">
+  <div class="bg-surface-container-lowest rounded-3xl shadow-sm ring-1 ring-outline-variant/10 w-full max-w-[400px] p-8">
+    <h1 class="text-3xl font-extrabold text-primary text-center mb-2">ServiFlow</h1>
+    <p class="text-sm text-on-surface-variant text-center mb-8">Gestión de Avisos y Trabajos</p>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-on-surface mb-2">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          [(ngModel)]="email" 
+          name="email" 
+          required
+          placeholder="admin@serviflow.com"
+          data-testid="email-input"
+          class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-on-surface mb-2">Contraseña</label>
+        <input 
+          type="password" 
+          id="password" 
+          [(ngModel)]="password" 
+          name="password" 
+          required
+          placeholder="••••••••"
+          data-testid="password-input"
+          class="w-full bg-surface-container-lowest border-none ring-1 ring-outline-variant rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all"
+        />
+      </div>
+
+      @if (authService.error()) {
+        <div class="bg-error-container text-on-error-container px-4 py-3 rounded-xl mb-4 text-sm" data-testid="error-message">
+          {{ authService.error() }}
+        </div>
+      }
+
+      <button 
+        type="submit" 
+        [disabled]="authService.loading() || !loginForm.valid"
+        data-testid="login-button"
+        class="w-full bg-gradient-to-r from-primary to-primary-container text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:opacity-90 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        @if (authService.loading()) {
+          <span class="flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined animate-spin">sync</span>
+            Cargando...
+          </span>
+        } @else {
+          Iniciar Sesión
+        }
+      </button>
+    </form>
+  </div>
+</div>
