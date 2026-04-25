@@ -3,11 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { DashboardRepositoryPort, DASHBOARD_REPOSITORY_TOKEN } from '../domain/port/dashboard.repository.port';
 import { DashboardData, DashboardFilters } from '../domain/model/dashboard.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardApiRepository implements DashboardRepositoryPort {
   private http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8080/api/dashboard';
+  private readonly API_URL = `${environment.apiUrl}/dashboard`;
 
   async getDashboardData(filters: DashboardFilters): Promise<DashboardData> {
     let params = new HttpParams();

@@ -3,11 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ClienteRepositoryPort, CLIENTE_REPOSITORY_TOKEN } from '../domain/port/cliente.repository.port';
 import { Cliente, CreateClienteRequest, UpdateClienteRequest, ClienteFilters, PaginatedResponse } from '../domain/model/cliente.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ClienteApiRepository implements ClienteRepositoryPort {
   private http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8080/api/clientes';
+  private readonly API_URL = `${environment.apiUrl}/clientes`;
 
   async getClientes(filters: ClienteFilters): Promise<PaginatedResponse<Cliente>> {
     let params = new HttpParams();

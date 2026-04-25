@@ -3,11 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { AvisoRepositoryPort, AVISO_REPOSITORY_TOKEN } from '../domain/port/aviso.repository.port';
 import { Aviso, CreateAvisoRequest, UpdateAvisoRequest, AssignTecnicoRequest, ChangeEstadoRequest, ReprogramarRequest, AvisoFilters, PaginatedResponse } from '../domain/model/aviso.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AvisoApiRepository implements AvisoRepositoryPort {
   private http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8080/api/avisos';
+  private readonly API_URL = `${environment.apiUrl}/avisos`;
 
   async getAvisos(filters: AvisoFilters): Promise<PaginatedResponse<Aviso>> {
     let params = new HttpParams();
