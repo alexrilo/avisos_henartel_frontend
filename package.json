@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "node node_modules/@angular/cli/bin/ng.js build",
-    "vercel-build": "node node_modules/@angular/cli/bin/ng.js build",
+    "build": "node node_modules/@angular/cli/bin/ng.js build --configuration production",
+    "vercel-build": "node node_modules/@angular/cli/bin/ng.js build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:e2e": "npx playwright test",
