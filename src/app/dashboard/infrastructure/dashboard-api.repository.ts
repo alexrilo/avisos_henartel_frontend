@@ -3,7 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { DashboardRepositoryPort, DASHBOARD_REPOSITORY_TOKEN } from '../domain/port/dashboard.repository.port';
 import { DashboardData, DashboardFilters } from '../domain/model/dashboard.model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({ providedIn: 'root' })
 export class DashboardApiRepository implements DashboardRepositoryPort {

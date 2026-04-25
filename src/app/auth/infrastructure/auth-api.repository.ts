@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthRepositoryPort, AUTH_REPOSITORY_TOKEN } from '../domain/port/auth.repository.port';
 import { LoginRequest, LoginResponse } from '../domain/model/login.model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 export class AuthApiRepository implements AuthRepositoryPort {
   private http = inject(HttpClient);

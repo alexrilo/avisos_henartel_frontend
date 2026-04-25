@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { UserRepositoryPort } from '../domain/port/user.repository.port';
 import { User, CreateUserRequest, UpdateUserRequest } from '../domain/model/user.model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
+
 
 export class UserApiRepository implements UserRepositoryPort {
   private http = inject(HttpClient);

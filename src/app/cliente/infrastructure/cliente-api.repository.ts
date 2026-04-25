@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ClienteRepositoryPort, CLIENTE_REPOSITORY_TOKEN } from '../domain/port/cliente.repository.port';
 import { Cliente, CreateClienteRequest, UpdateClienteRequest, ClienteFilters, PaginatedResponse } from '../domain/model/cliente.model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ClienteApiRepository implements ClienteRepositoryPort {

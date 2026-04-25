@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { AvisoRepositoryPort, AVISO_REPOSITORY_TOKEN } from '../domain/port/aviso.repository.port';
 import { Aviso, CreateAvisoRequest, UpdateAvisoRequest, AssignTecnicoRequest, ChangeEstadoRequest, ReprogramarRequest, AvisoFilters, PaginatedResponse } from '../domain/model/aviso.model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AvisoApiRepository implements AvisoRepositoryPort {
